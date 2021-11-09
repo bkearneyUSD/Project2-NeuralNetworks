@@ -98,7 +98,7 @@ public class Main {
                 }
             }
         }
-        // HopfieldHelper.test(weightsFile, testingFile);
+        HopfieldHelper.test(testingFile, weightsFile);
     }
 
 

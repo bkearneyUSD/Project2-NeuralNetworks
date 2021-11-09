@@ -1,6 +1,5 @@
-import java.util.Scanner;
 import java.io.*;
-import java.util.Arrays;
+import java.util.*;
 
 public class HopfieldHelper {
 
@@ -101,7 +100,7 @@ public class HopfieldHelper {
         }
     }
 
-    private static void test(File testingDataFile, File trainedWeightsFile) {
+    public static void test(File testingDataFile, File trainedWeightsFile) {
         int[][] weights = getWeightsFromFile(trainedWeightsFile);
 
         if (fileCompatibility(weights, testingDataFile)) {
@@ -169,22 +168,86 @@ public class HopfieldHelper {
     private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles) {
         // Tests the saved weights against the patterns of the testing file to produce a classification.
         Sample[] samples = getSamples(testingDataFile);
+        int imageDimension = samples[0].img.length;
+
+        ArrayList<Integer> numberList = new ArrayList<Integer>();
+        for (int i = 0; i < imageDimension; i++) {
+            numberList.add(i);
+        }
 
         for (Sample s : samples) {
             int[] y_i = s.img;
 
+            boolean converged = false;
+            int numberOfCycles = 0;
+            while (!converged) {
+                converged = true;
+                // Randomize the list of numbers for random ordering
+                Collections.shuffle(numberList);
+                for (int randomIndex : numberList) {
+                    int y_in_i = s.img[randomIndex];
+                    for (int z = 0; z < imageDimension; z++) {
+                        y_in_i += y_i[z] * weights[z][randomIndex];
+                    }
+                    // y_in_i is now finished, do activation
+                    int new_y_i = 0;
+                    if (y_in_i > 0) {
+                        new_y_i = 1;
+                    }
+                    else if (y_in_i < 0) {
+                        new_y_i = -1;
+                    }
+                    // check if the value changed
+                    if (y_i[randomIndex] != new_y_i) {
+                        converged = false;
+                        // broadcast y_i
+                        y_i[randomIndex] = new_y_i;
+                    }
+                } //end for loop
+                numberOfCycles++;
+                if (numberOfCycles == maxNumberOfCycles) {
+                    converged = true;
+                    System.out.println("Max number of cycles reached.");
+                }
+            } // end while loop
 
-            System.out.print("The image from the testing file:\n" + s.printableImg + "\n");
-            System.out.print("The image returned from the Hopfield Net:\n" + something + "\n");
-            if (Arrays.equals(something, s.img)) {
-                System.out.print("Association Successful\n\n");
-            }
-            else {
-                System.out.print("Association Failed\n\n");
-            }
+            System.out.print("\nThe image from the testing file:\n" + s.printableImg + "\n");
+            System.out.print("The image returned from the Hopfield Net:\n\n" + getPrintableImage(y_i) + "\n\n");
+            
+            // Write a statement about correctness. May have to remember the stored vectors to check y_i against?
 
-        }
+            // if (Arrays.equals(y_i, s.img)) {
+            //     System.out.print("Association Successful\n\n");
+            // }
+            // else {
+            //     System.out.print("Association Failed\n\n");
+            // }
+
+        } //end for loop for the sample s
     }
+
+private static String getPrintableImage(int[] img) {
+    double rowLength = Math.sqrt(img.length);
+    int currentRow = 0;
+    String printableImage = "";
+    for (int i = 0; i < img.length; i++) {
+        if (currentRow == rowLength) {
+            currentRow = 0;
+            printableImage += "\n";
+        }
+        if (img[i] > 0) {
+            printableImage += "O";
+        }
+        else if (img[i] < 0) {
+            printableImage += " ";
+        }
+        else {
+            printableImage += "@";
+        }
+        currentRow++;
+    }
+    return printableImage;
+}
 
     private static Sample[] getSamples(File dataFile) {
         Scanner fileReader = null;
