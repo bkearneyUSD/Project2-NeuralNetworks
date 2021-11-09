@@ -16,6 +16,7 @@ public class Main {
 
 	private static void runTraining(Scanner kb) {
         File trainingData = null;
+        String weightsFilename = null;
         
 		// The rest of this method validates user inputs to avoid runtime errors.
         boolean validatingFilename = true;
@@ -38,7 +39,16 @@ public class Main {
             }
         }
 
-        HopfieldHelper.train(trainingData);
+        boolean validatingWeightsFilename = true;
+        while (validatingWeightsFilename) {
+            System.out.println("\nEnter a filename for the weights to be save:");
+            if (kb.hasNextLine()) {
+                weightsFilename = kb.nextLine();
+                validatingWeightsFilename = false;
+            }
+        }
+
+        HopfieldHelper.train(trainingData, weightsFilename);
 	}
 
     private static void runTesting(Scanner kb) {

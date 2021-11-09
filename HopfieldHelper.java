@@ -1,11 +1,10 @@
 import java.util.Scanner;
 import java.io.*;
 import java.util.Arrays;
-import java.util.Random;
 
 public class HopfieldHelper {
 
-    public static void train(File trainingDataFile) 
+    public static void train(File trainingDataFile, String weightsFilename) 
     {
         Scanner fileReader = null;
         try {
@@ -45,50 +44,63 @@ public class HopfieldHelper {
 
         fileReader.close();
 
-        // for (int i = 0; i < numImages; i++) {
-        //     System.out.println(samples[i].printableImg);
-        // }
-
         // intialize weights
-        float[][] weights = new float[imageDimension][imageDimension];
+        int[][] weights = new int[imageDimension][imageDimension];
         setInitialWeights(weights, imageDimension);
 
         hebbTraining(samples, weights);
         
         // output results to a file
-        makeWeightFile(weights, inputDimension, outputDimension, trainedWeightsFileName, thresholdTheta, classifications);
+        makeWeightFile(weights, imageDimension, weightsFilename);
     }
 
-    public static void test(String trainedWeightsFileName, String testingSetFileName) {
-        // Calls helper functions to test our saved weights against a set of testing patterns
-        
-        Weights weights = getWeightsFromFile(trainedWeightsFileName);
-        if (fileCompatibility(weights.weights, testingSetFileName)) {
-            testingLoop(weights.weights, testingSetFileName, weights.thresholdTheta, weights.classifications);
-        }
-        else {
-            System.out.println("The Weights file selected has incompatible dimensions with the testing file");
-        }
-    }
-
-    private static void hebbTraining(Sample[] samples, float[][] weights) {
-        // Create a weight matrix for each individual image and then add all weight matrices together to get the final weights matrix
-    }
-
-    private static void setInitialWeights(float[][] weights, int imageDimension) {
+    private static void setInitialWeights(int[][] weights, int imageDimension) {
         // Helper function that initializes the values of our 2 dimensional weights array according to user input
-        float initialWeight = 0;
+        int initialWeight = 0;
         for (int i = 0; i < imageDimension; i++) {
             Arrays.fill(weights[i], initialWeight);
         }
     }
 
-    private static void makeWeightFile(float[][] weights, int inputDimension, int outputDimension, String trainedWeightsFileName, float thresholdTheta, char[] classifications) {
+    private static void hebbTraining(Sample[] samples, int[][] weights) {
+        // Create a weight matrix for each individual image and then add all weight matrices together to get the final weights matrix
+        for(Sample sample : samples) {
+            int[][] transposeMatrix = transposeMultiplication(sample.img);
+            matrixAddition(weights, transposeMatrix);
+        }
+    }
+
+    private static int[][] transposeMultiplication(int[] image) {
+        // todo comment
+        int[][] matrix = new int[image.length][image.length];
+        for(int i = 0; i < image.length; i++) {
+            for(int j = 0; j < image.length; j++) {
+                if (i == j) {
+                    matrix[i][j] = 0;
+                }
+                else {
+                    matrix[i][j] = image[i] * image[j];
+                }
+            }
+        }
+        return matrix;
+    }
+
+    private static void matrixAddition(int[][] currentSum, int[][] matrix) {
+        // todo comment
+        for(int i = 0; i < currentSum.length; i++) {
+            for(int j = 0; j < currentSum[i].length; j++) {
+                currentSum[i][j] = currentSum[i][j] + matrix[i][j];
+            }
+        }
+    }
+
+    private static void makeWeightFile(int[][] weights, int imageDimension, String trainedWeightsFilename) {
         // This method saves our weights to a file that can be used to test against the noise testing files.
 
         // Tries to open the file
         try {
-            File weightsFile = new File(trainedWeightsFileName);
+            File weightsFile = new File(trainedWeightsFilename);
             if (weightsFile.createNewFile()) {
               System.out.println("\nFile created: " + weightsFile.getName());
             } else {
@@ -103,18 +115,13 @@ public class HopfieldHelper {
        
         // Try to write to the file
         try {
-            FileWriter myWriter = new FileWriter(trainedWeightsFileName);
-            myWriter.write(Integer.toString(inputDimension) + "\n" + Integer.toString(outputDimension) + "\n"  + Float.toString(thresholdTheta) + "\n");
+            FileWriter myWriter = new FileWriter(trainedWeightsFilename);
+            myWriter.write(Integer.toString(imageDimension) + "\n");
 
-            for (int z = 0; z < classifications.length; z++) {
-                myWriter.write(classifications[z] + " ");
-            }
-            myWriter.write("\n");
-
-            for(int i=0; i<outputDimension; i++) {
+            for(int i = 0; i < weights.length; i++) {
                 String line = "";
-                for(int j=0; j<inputDimension + 1; j++) {
-                    line = line + Float.toString(weights[i][j]) + " ";
+                for(int j = 0; j < weights[i].length; j++) {
+                    line = line + Integer.toString(weights[i][j]) + " ";
                 }
                 myWriter.write(line + "\n");
             }
@@ -128,13 +135,21 @@ public class HopfieldHelper {
         }
     }
 
-    private static Weights getWeightsFromFile(String trainedWeightsFileName) {
+    private static void test(File testingDataFile, File trainedWeightsFile) {
+        int[][] weights = getWeightsFromFile(trainedWeightsFile);
+
+        if (fileCompatibility(weights, testingDataFile)) {
+            //testingLoop(weights, testingDataFile);
+        }
+        else {
+            System.out.println("The weights file and testing file are incompatable...");
+        }
+    }
+
+    private static int[][] getWeightsFromFile(File trainedWeightsFile) {
         // This method reads in the data from our saved weights file.
-
-        float[][] weights;
-        File trainedWeightsFile = new File(trainedWeightsFileName);
-
         Scanner fileReader = null;
+
         try {
             fileReader = new Scanner(trainedWeightsFile);
         }
@@ -145,40 +160,32 @@ public class HopfieldHelper {
         }
 
 
-        int inputDimension = fileReader.nextInt();
-        int outputDimension = fileReader.nextInt();
-        float thresholdTheta = fileReader.nextFloat();
+        int imageDimension = fileReader.nextInt();
         fileReader.nextLine();
-        String classificationString = fileReader.nextLine();
-        String[] classifications = classificationString.split(" ");
-        
-        weights = new float[outputDimension][inputDimension + 1];
+    
+        int[][] weights = new int[imageDimension][imageDimension];
 
-        for (int i = 0; i < outputDimension; i++) {
-            for (int j = 0; j < inputDimension + 1; j++) {
-                weights[i][j] = fileReader.nextFloat();
+        for (int i = 0; i < imageDimension; i++) {
+            for (int j = 0; j < imageDimension; j++) {
+                weights[i][j] = fileReader.nextInt();
             }
+            fileReader.nextLine();
         }
-
-        Weights weightsObj = new Weights(thresholdTheta, weights, classifications);
 
         fileReader.close();
 
-        return weightsObj;
+        return weights;
     }
 
-    private static boolean fileCompatibility(float[][] weights, String testingSetFileName) {
+    private static boolean fileCompatibility(int[][] weights, File testingDataFile) {
         // This method checks if the dimensions of the saved weights are equal to the dimensions
         // of the file that is being tested against the saved weights. 
 
-        int weightOutputs = weights.length;
-        int weightInputs = weights[0].length - 1;
-
-        File testingSetFile = new File(testingSetFileName);
+        int imageDimension = weights.length;
 
         Scanner fileReader = null;
         try {
-            fileReader = new Scanner(testingSetFile);
+            fileReader = new Scanner(testingDataFile);
         }
         catch(FileNotFoundException e) {
             System.out.println("File Not Found");
@@ -186,16 +193,14 @@ public class HopfieldHelper {
             System.exit(1);
         }
 
-
-        int inputDimension = fileReader.nextInt();
-        int outputDimension = fileReader.nextInt();
+        int fileImageDimension = fileReader.nextInt();
 
         fileReader.close();
 
-        return (inputDimension == weightInputs && outputDimension == weightOutputs);
+        return (imageDimension == fileImageDimension);
     }
-
-    private static void testingLoop(float[][] weights, String testingSetFile, float thresholdTheta, String[] classifications) {
+/*
+    private static void testingLoop(float[][] weights, String testingSetFile) {
         // Tests the saved weights against the patterns of the testing file to produce a classification.
         
         Sample[] samples = makeSamples(testingSetFile);
@@ -247,42 +252,5 @@ public class HopfieldHelper {
         }
 
     }
-
-    private static Sample[] makeSamples(String filename) {
-        // Method creates Sample class objects from the training data read
-        
-        File file = new File(filename);
-        Scanner fileReader = null;
-        try {
-            fileReader = new Scanner(file);
-        }
-        catch(FileNotFoundException e) {
-            System.out.println("File not Found");
-            e.printStackTrace();
-        }
-
-        int inputDimension = fileReader.nextInt();
-        int outputDimension = fileReader.nextInt();
-        int numTestingPairs = fileReader.nextInt();
-        Sample[] samples = new Sample[numTestingPairs];
-       
-        for (int n = 0; n < numTestingPairs; n++) {
-            int[] inputArray = new int[inputDimension]; 
-            for (int i = 0; i < inputDimension; i++) {
-                inputArray[i] = fileReader.nextInt();
-            }
-            
-            int[] outputArray = new int[outputDimension];
-            for (int j = 0; j < outputDimension; j++) {
-                outputArray[j] = fileReader.nextInt();
-            }
-
-            String classification = fileReader.next();
-
-            samples[n] = new Sample(inputArray, outputArray, classification);
-        }
-        fileReader.close();
-        return samples;
-    }
-
+*/
 } //end perceptronHelper Class
