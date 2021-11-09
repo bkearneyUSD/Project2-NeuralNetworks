@@ -6,43 +6,9 @@ public class HopfieldHelper {
 
     public static void train(File trainingDataFile, String weightsFilename) 
     {
-        Scanner fileReader = null;
-        try {
-            fileReader = new Scanner(trainingDataFile);
-        }
-        catch(FileNotFoundException e) {
-            System.out.println("File cannot be opened by scanner");
-            e.printStackTrace();
-        }
+        Sample[] samples = getSamples(trainingDataFile);
 
-        // System.out.println(fileReader.next());
-        int imageDimension = fileReader.nextInt();
-        fileReader.nextLine();
-        int numImages = fileReader.nextInt();
-        fileReader.nextLine();
-        
-        Sample[] samples = new Sample[numImages];
-       
-        // for loop reads in all of the data from our training file
-        for (int n = 0; n < numImages; n++) {
-            int count = imageDimension;
-            String image = "";
-
-            while (count > 0) {
-                String line = fileReader.nextLine();
-                int lineSize = line.length();
-                count = count - lineSize;
-
-                if (count < 0) {
-                    System.out.println("Read input incorrectly, count < 0");
-                    System.exit(-1);
-                }
-                image += line + "\n";
-            }
-            samples[n] = new Sample(image);
-        } // end for loop
-
-        fileReader.close();
+        int imageDimension = samples[0].img.length;
 
         // intialize weights
         int[][] weights = new int[imageDimension][imageDimension];
@@ -139,7 +105,7 @@ public class HopfieldHelper {
         int[][] weights = getWeightsFromFile(trainedWeightsFile);
 
         if (fileCompatibility(weights, testingDataFile)) {
-            //testingLoop(weights, testingDataFile);
+            testingHelper(weights, testingDataFile, 50);
         }
         else {
             System.out.println("The weights file and testing file are incompatable...");
@@ -199,58 +165,69 @@ public class HopfieldHelper {
 
         return (imageDimension == fileImageDimension);
     }
-/*
-    private static void testingLoop(float[][] weights, String testingSetFile) {
+
+    private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles) {
         // Tests the saved weights against the patterns of the testing file to produce a classification.
         
-        Sample[] samples = makeSamples(testingSetFile);
-        for (Sample s :samples) {
-            int[] testingOutput = new int[s.outputs.length];
-            for (int out_i = 0; out_i < s.outputs.length; out_i++) {
-                float y_in = weights[out_i][0]; // set y_in to the bias wb
-                for (int in_i = 1; in_i < s.inputs.length + 1; in_i++) {
-                    y_in = y_in + weights[out_i][in_i] * s.inputs[in_i - 1];
-                }
-                // Activation Function
-                if (y_in < -thresholdTheta){
-                    testingOutput[out_i] = -1;
-                }
-                else if (y_in > thresholdTheta) {
-                    testingOutput[out_i] = 1;
-                }
-                else {
-                    testingOutput[out_i] = 0;
-                }
-            }
-            // Have output for this testing pair
-            System.out.print("The test classification output is:      " + Arrays.toString(testingOutput) + "\n");
-            boolean foundOne = false;
-            String printClass = "Undecided";
-            for (int i = 0; i < testingOutput.length; i++) {
-                if (testingOutput[i] == 0) {
-                    printClass = "Undecided";
-                    foundOne = true;
-                }
-                else if (!foundOne && testingOutput[i] == 1) {
-                    printClass = classifications[i];
-                    foundOne = true;
-                }
-                else if (foundOne && testingOutput[i] == 1) {
-                    printClass = "Undecided";
-                }
-            }
-            System.out.print("The test classification character is " + printClass + "\n");
-            System.out.print("The expected classification output is:  " + Arrays.toString(s.outputs) + "\n");
-            System.out.print("The expected classification character is " + s.classification + "\n");
-            if (Arrays.equals(testingOutput, s.outputs)) {
-                System.out.print("Classification Successful\n\n");
+        Sample[] samples = getSamples(testingDataFile);
+
+        int imageDimension = samples[0].img.length;
+
+        for (Sample s : samples) {
+            int[] y_i = s.img;
+
+
+            System.out.print("The image from the testing file:\n" + s.printableImg + "\n");
+            System.out.print("The image returned from the Hopfield Net:\n" + something + "\n");
+            if (Arrays.equals(something, s.img)) {
+                System.out.print("Association Successful\n\n");
             }
             else {
-                System.out.print("Classification Failed\n\n");
+                System.out.print("Association Failed\n\n");
             }
 
         }
-
     }
-*/
+
+    private static Sample[] getSamples(File dataFile) {
+        Scanner fileReader = null;
+        try {
+            fileReader = new Scanner(dataFile);
+        }
+        catch(FileNotFoundException e) {
+            System.out.println("File cannot be opened by scanner");
+            e.printStackTrace();
+        }
+
+        // System.out.println(fileReader.next());
+        int imageDimension = fileReader.nextInt();
+        fileReader.nextLine();
+        int numImages = fileReader.nextInt();
+        fileReader.nextLine();
+        
+        Sample[] samples = new Sample[numImages];
+       
+        // for loop reads in all of the data from our training file
+        for (int n = 0; n < numImages; n++) {
+            int count = imageDimension;
+            String image = "";
+
+            while (count > 0) {
+                String line = fileReader.nextLine();
+                int lineSize = line.length();
+                count = count - lineSize;
+
+                if (count < 0) {
+                    System.out.println("Read input incorrectly, count < 0");
+                    System.exit(-1);
+                }
+                image += line + "\n";
+            }
+            samples[n] = new Sample(image);
+        } // end for loop
+
+        fileReader.close();
+
+        return samples;
+    }
 } //end perceptronHelper Class
