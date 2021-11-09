@@ -168,10 +168,7 @@ public class HopfieldHelper {
 
     private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles) {
         // Tests the saved weights against the patterns of the testing file to produce a classification.
-        
         Sample[] samples = getSamples(testingDataFile);
-
-        int imageDimension = samples[0].img.length;
 
         for (Sample s : samples) {
             int[] y_i = s.img;
