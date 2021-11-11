@@ -1,10 +1,12 @@
 public class Sample {
-    // This class represents individual "samples" from our training file to use during the learning process.
+    // This class represents individual images from our training file to use during the learning process.
     int[] img;
     String printableImg;
 
     public Sample(String imgFromFile) {
         this.printableImg = imgFromFile;
+
+        // Here the Sample class flattens the image into an array of binary inputs that can be used in the Hopfield algorithm
         String flatImg = imgFromFile.replaceAll("\n", "");
         img = new int[flatImg.length()];
 
