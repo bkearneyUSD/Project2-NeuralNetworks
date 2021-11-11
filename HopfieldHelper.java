@@ -4,6 +4,7 @@ import java.util.*;
 public class HopfieldHelper {
 
     public static void train(File trainingDataFile, String weightsFilename) {
+        // By Brenton
         // This function uses helper functions to train our weight matrix and ultimately output results to a txt file.
         Sample[] samples = getSamples(trainingDataFile);
 
@@ -20,6 +21,7 @@ public class HopfieldHelper {
     }
 
     private static void setInitialWeights(int[][] weights, int imageDimension) {
+        // By Brenton
         // Helper function that initializes the values of our 2 dimensional weights array according to user input
         int initialWeight = 0;
         for (int i = 0; i < imageDimension; i++) {
@@ -28,6 +30,7 @@ public class HopfieldHelper {
     }
 
     private static void hebbTraining(Sample[] samples, int[][] weights) {
+        // By Brenton
         // Creates a weight matrix for each individual image and then adds all weight matrices together. The sum
         // The int[][] weights parameter is updated as the final weight matrix.
         for(Sample sample : samples) {
@@ -37,6 +40,7 @@ public class HopfieldHelper {
     }
 
     private static int[][] transposeMultiplication(int[] image) {
+        // By Joe
         // Takes in the vector image and multiplies image by its own transpose, returning the product.
         int[][] matrix = new int[image.length][image.length];
         for(int i = 0; i < image.length; i++) {
@@ -53,6 +57,7 @@ public class HopfieldHelper {
     }
 
     private static void matrixAddition(int[][] currentSum, int[][] matrix) {
+        // By Joe
         // Takes in two matrices and adds them together, updating currentSum with the result.
         for(int i = 0; i < currentSum.length; i++) {
             for(int j = 0; j < currentSum[i].length; j++) {
@@ -62,6 +67,7 @@ public class HopfieldHelper {
     }
 
     private static void makeWeightFile(int[][] weights, int imageDimension, String trainedWeightsFilename) {
+        // By Joe
         // This method saves our weights to a file that can be used to test against the noise testing files.
 
         // Tries to open the file
@@ -102,6 +108,7 @@ public class HopfieldHelper {
     }
 
     public static void test(File testingDataFile, File trainedWeightsFile) {
+        // By Brenton
         // Runs our saved weights against a file of images to test our algorithm's effectiveness through helper functions.
         int[][] weights = getWeightsFromFile(trainedWeightsFile);
 
@@ -116,6 +123,7 @@ public class HopfieldHelper {
     }
 
     private static File makeSolutionFile() {
+        // By Patrick
         // This method saves our weights to a file that can be used to test against the noise testing files.
 
         // Tries to open the file
@@ -137,6 +145,7 @@ public class HopfieldHelper {
     }
 
     private static int[][] getWeightsFromFile(File trainedWeightsFile) {
+        // By Patrick
         // This method reads in the data from our saved weights file.
         Scanner fileReader = null;
 
@@ -168,6 +177,7 @@ public class HopfieldHelper {
     }
 
     private static boolean fileCompatibility(int[][] weights, File testingDataFile) {
+        // By Patrick
         // This method checks if the dimensions of the saved weights are equal to the dimensions
         // of the file that is being tested against the saved weights. 
 
@@ -191,6 +201,7 @@ public class HopfieldHelper {
     }
 
     private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles, File solutionFile) {
+        // By Brenton
         // Tests the saved weights against the patterns of the testing file to produce a classification.
         Sample[] samples = getSamples(testingDataFile);
         int imageDimension = samples[0].img.length;
@@ -255,6 +266,7 @@ public class HopfieldHelper {
     }
 
 private static String getPrintableImage(int[] img) {
+    // By Patrick
     // Function takes in an image vector of integers with value 1,-1 and returns a printable version of O and ' ' characters.
     double rowLength = Math.sqrt(img.length);
     int currentRow = 0;
@@ -279,6 +291,7 @@ private static String getPrintableImage(int[] img) {
 }
 
     private static Sample[] getSamples(File dataFile) {
+        // By Patrick
         // Reads in our sample data and created a list of custom Sample objects to be used for training.
         Scanner fileReader = null;
         try {

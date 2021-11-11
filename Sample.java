@@ -1,4 +1,5 @@
 public class Sample {
+    // By Joe
     // This class represents individual images from our training file to use during the learning process.
     int[] img;
     String printableImg;

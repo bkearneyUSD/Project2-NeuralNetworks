@@ -16,6 +16,7 @@ import java.io.*;
 public class Main {
 
 	private static void runTraining(Scanner kb) {
+        // By Joe 
         // Function in main that utilizes the Hopfield Helper to train weights
         File trainingData = null;
         String weightsFilename = null;
@@ -53,6 +54,7 @@ public class Main {
 	}
 
     private static void runTesting(Scanner kb) {
+        // By Joe 
         // Function in main that utilizes the Hopfield Helper to test a set of weights
         String weightsFilename = "";
         String testingFilename = "";
@@ -105,6 +107,7 @@ public class Main {
     }
 
     private static void mainLoop() {
+        // By Joe 
         // Main loop of the program that handles the users choice of training, testing, or quiting
         boolean running = true;
         while (running) {
@@ -136,6 +139,7 @@ public class Main {
     }
     
 	public static void main(String args[]) {
+        // By Joe 
 		System.out.println("Welcome to our Hopfield Neural Model for auto-associative memory!\n");
 		mainLoop();
 	}
