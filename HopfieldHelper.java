@@ -92,10 +92,10 @@ public class HopfieldHelper {
                 myWriter.write(line + "\n");
             }
             myWriter.close();
-            System.out.println("Successfully wrote to the file.\n");
+            System.out.println("Successfully wrote to the weights file.\n");
         } 
         catch (IOException e) {
-            System.out.println("An error occurred while writing to the file.");
+            System.out.println("An error occurred while writing to the weights file.");
             e.printStackTrace();
             System.exit(1);
         }
@@ -105,12 +105,35 @@ public class HopfieldHelper {
         // Runs our saved weights against a file of images to test our algorithm's effectiveness through helper functions.
         int[][] weights = getWeightsFromFile(trainedWeightsFile);
 
+        File solutionFile = makeSolutionFile();
+
         if (fileCompatibility(weights, testingDataFile)) {
-            testingHelper(weights, testingDataFile, 50);
+            testingHelper(weights, testingDataFile, 50, solutionFile);
         }
         else {
             System.out.println("The weights file and testing file are incompatable...");
         }
+    }
+
+    private static File makeSolutionFile() {
+        // This method saves our weights to a file that can be used to test against the noise testing files.
+
+        // Tries to open the file
+        File resultsFile = null;
+        try {
+            resultsFile = new File("results.txt");
+            if (resultsFile.createNewFile()) {
+              System.out.println("\nResults will be found in the new file, results.txt");
+            } else {
+              System.out.println("\nFesults file already exists, overwriting results.txt.");
+            }
+        } 
+        catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+            System.exit(1);
+        }
+        return resultsFile;
     }
 
     private static int[][] getWeightsFromFile(File trainedWeightsFile) {
@@ -167,7 +190,7 @@ public class HopfieldHelper {
         return (imageDimension == fileImageDimension);
     }
 
-    private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles) {
+    private static void testingHelper(int[][] weights, File testingDataFile, int maxNumberOfCycles, File solutionFile) {
         // Tests the saved weights against the patterns of the testing file to produce a classification.
         Sample[] samples = getSamples(testingDataFile);
         int imageDimension = samples[0].img.length;
@@ -178,46 +201,57 @@ public class HopfieldHelper {
             numberList.add(i);
         }
 
-        for (Sample s : samples) {
-            int[] y_i = s.img;
+        try {
+            FileWriter resultsWriter = new FileWriter(solutionFile);
 
-            boolean converged = false;
-            int numberOfCycles = 0;
-            while (!converged) {
-                converged = true;
-                // Randomize the list of possible index values for random ordering
-                Collections.shuffle(numberList);
-                for (int randomIndex : numberList) {
-                    int y_in_i = s.img[randomIndex];
-                    for (int z = 0; z < imageDimension; z++) {
-                        y_in_i += y_i[z] * weights[z][randomIndex];
-                    }
-                    // y_in_i is now finished, do activation
-                    int new_y_i = 0;
-                    if (y_in_i > 0) {
-                        new_y_i = 1;
-                    }
-                    else if (y_in_i < 0) {
-                        new_y_i = -1;
-                    }
-                    // check if the value changed
-                    if (y_i[randomIndex] != new_y_i) {
-                        converged = false;
-                        // broadcast y_i
-                        y_i[randomIndex] = new_y_i;
-                    }
-                } //end for loop
-                numberOfCycles++;
-                if (numberOfCycles == maxNumberOfCycles) {
+            for (Sample s : samples) {
+                int[] y_i = s.img;
+
+                boolean converged = false;
+                int numberOfCycles = 0;
+                while (!converged) {
                     converged = true;
-                    System.out.println("Max number of cycles reached.");
-                }
-            } // end while loop
+                    // Randomize the list of possible index values for random ordering
+                    Collections.shuffle(numberList);
+                    for (int randomIndex : numberList) {
+                        int y_in_i = s.img[randomIndex];
+                        for (int z = 0; z < imageDimension; z++) {
+                            y_in_i += y_i[z] * weights[z][randomIndex];
+                        }
+                        // y_in_i is now finished, do activation
+                        int new_y_i = 0;
+                        if (y_in_i > 0) {
+                            new_y_i = 1;
+                        }
+                        else if (y_in_i < 0) {
+                            new_y_i = -1;
+                        }
+                        // check if the value changed
+                        if (y_i[randomIndex] != new_y_i) {
+                            converged = false;
+                            // broadcast y_i
+                            y_i[randomIndex] = new_y_i;
+                        }
+                    } //end for loop
+                    numberOfCycles++;
+                    if (numberOfCycles == maxNumberOfCycles) {
+                        converged = true;
+                        System.out.println("Max number of cycles reached.");
+                    }
+                } // end while loop
 
-            System.out.print("\nThe image from the testing file:\n" + s.printableImg + "\n");
-            System.out.print("The image returned from the Hopfield Net:\n\n" + getPrintableImage(y_i) + "\n\n");
-
-        } //end for loop for the sample s
+                String output = "\nThe image from the testing file:\n" + s.printableImg + "\nThe image returned from the Hopfield Net:\n\n" + getPrintableImage(y_i) + "\n\n";
+                resultsWriter.write(output);
+                System.out.print(output);
+            } //end for loop for the sample s
+            resultsWriter.close();
+            System.out.println("Successfully wrote to the results file.\n");
+        }
+        catch (IOException e) {
+            System.out.println("An error occurred while writing to the results file.");
+            e.printStackTrace();
+            System.exit(1);
+        }
     }
 
 private static String getPrintableImage(int[] img) {
