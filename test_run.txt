@@ -1,0 +1,329 @@
+Script started on Wed Nov 10 19:05:18 2021
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                              ]2;patricksorys@Patricks-MBP: ~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository]1;..P2/repository[0m[27m[24m[J]0;patricksorys@Patricks-MBP:~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository | 238x61 | ttys006[1m[36m┌─[1m[30m([1m[32m~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository[1m[30m)[1m[36m────────────────────────────────────────────────────────────────────────────────────────────────[1m[30m([1m[36mpatricksorys[1m[30m@[1m[32mPatricks-MBP:s006[1m[30m)[1m[36m─┐
+[1m[36m└[1m[34m─([1m[33m19:05:18[34m[00m on [32mmain[00m[36m ✭[1m[34m)[1m[36m──>(B[m [K[195C [1m[36m─[1m[34m─([1m[33mWed,Nov10[1m[34m)─[1m[36m┘(B[m[211D[?1h=[?2004hjjavac mMain.java[1m [0m[0m [?1l>[?2004l
+]2;javac Main.java]1;javac[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                              ]2;patricksorys@Patricks-MBP: ~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository]1;..P2/repository[0m[27m[24m[J]0;patricksorys@Patricks-MBP:~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository | 238x61 | ttys006[1m[36m┌─[1m[30m([1m[32m~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository[1m[30m)[1m[36m────────────────────────────────────────────────────────────────────────────────────────────────[1m[30m([1m[36mpatricksorys[1m[30m@[1m[32mPatricks-MBP:s006[1m[30m)[1m[36m─┐
+[1m[36m└[1m[34m─([1m[33m19:05:32[34m[00m on [32mmain[00m[36m ✭[1m[34m)[1m[36m──>(B[m [K[195C [1m[36m─[1m[34m─([1m[33mWed,Nov10[1m[34m)─[1m[36m┘(B[m[211D[?1h=[?2004hjjava mMain[1m [0m[0m [?1l>[?2004l
+]2;java Main]1;javaWelcome to our Hopfield Neural Model for auto-associative memory!
+
+Enter 1 to train using a training data file, enter 2 to use a trained weight settings data file, or enter 3 to quit:
+1
+
+Enter the training data file name:
+weights.txt           train1.txt
+
+Enter a filename for the weights to be save:
+weights.txt
+
+File already exists, overwriting file.
+Successfully wrote to the weights file.
+
+Enter 1 to train using a training data file, enter 2 to use a trained weight settings data file, or enter 3 to quit:
+2
+
+Enter the filename for the weights:
+weights.txt
+
+Enter the filename for testing:
+
+File not Found
+
+Enter the filename for testing:
+lowNoiseTesting.txt
+
+Fesults file already exists, overwriting results.txt.
+
+The image from the testing file:
+
+O   O O O 
+ O O O   O
+O O   O O 
+ O O O O O
+O   O O O 
+ O O O O O
+O O   O O 
+ O O O   O
+O O   O O 
+ O   O O O
+
+The image returned from the Hopfield Net:
+
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+
+
+The image from the testing file:
+
+OO  OO  OO
+O   OO  OO
+   O  OO  
+  OO   O  
+OO   O  OO
+OO  OO   O
+   O  OO  
+  OO   O  
+OO  OO  OO
+OO   O  OO
+
+The image returned from the Hopfield Net:
+
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
+
+
+The image from the testing file:
+
+O OOO     
+OO OO     
+OOOOO     
+O OOO     
+OOO O     
+     O OOO
+     OOO O
+     O OOO
+     OO OO
+     OOOOO
+
+The image returned from the Hopfield Net:
+
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
+
+
+The image from the testing file:
+
+O  O  O  O
+ O     O  
+  O  O  O 
+O  O     O
+ O  O  O  
+  O  O    
+O  O     O
+ O     O  
+        O 
+O     O  O
+
+The image returned from the Hopfield Net:
+
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+
+
+The image from the testing file:
+
+O O O O OO
+O        O
+O OOOOOO O
+O O    O O
+O O OO O O
+O O OO O O
+O O    O O
+O OOOOOO O
+O        O
+OO O O O O
+
+The image returned from the Hopfield Net:
+
+OOOOOOOOOO
+O        O
+O OOOOOO O
+O O    O O
+O O OO O O
+O O OO O O
+O O    O O
+O OOOOOO O
+O        O
+OOOOOOOOOO
+
+Successfully wrote to the results file.
+
+Enter 1 to train using a training data file, enter 2 to use a trained weight settings data file, or enter 3 to quit:
+2
+
+Enter the filename for the weights:
+weights.y txthighNoiseTesting.txt
+File not Found
+
+Enter the filename for the weights:
+weights.txt
+
+Enter the filename for testing:
+highNoiseTesting.txt
+
+Fesults file already exists, overwriting results.txt.
+
+The image from the testing file:
+
+O O   O O 
+       O O
+OO  O OOO 
+ O O O   O
+O   O O OO
+ O  OO   O
+ OOOOOOOO 
+ O O   O O
+OOO O   O 
+     OOO O
+
+The image returned from the Hopfield Net:
+
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+
+
+The image from the testing file:
+
+ OO OO  OO
+O    O  OO
+  OO O  O 
+ OOO    O 
+ O  OO  O 
+OO   O O O
+  OOO  O  
+  O   OO O
+OOO OO   O
+OOO  O  OO
+
+The image returned from the Hopfield Net:
+
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
+
+
+The image from the testing file:
+
+O OOO  O O
+ OO O   O 
+OO OO   OO
+O OOO O  O
+ OO O  O  
+   O OO OO
+ O    OOOO
+O O  O O O
+O  O O OOO
+ O   O O O
+
+The image returned from the Hopfield Net:
+
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
+
+
+The image from the testing file:
+
+      OO O
+OO     O  
+  O OO O  
+O  OO O   
+  O O  O  
+O O  OO OO
+   O     O
+ O OO  OO 
+  O  OOOOO
+O     O   
+
+The image returned from the Hopfield Net:
+
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+
+
+The image from the testing file:
+
+ OO OOOO O
+O  OO  O O
+  OOOOOO O
+O O O  OO 
+  O OO O O
+O O OO O  
+ OO O  O O
+O OOOOOO O
+  O  O O  
+  OO   OOO
+
+The image returned from the Hopfield Net:
+
+OOOOOOOOOO
+O        O
+O OOOOOO O
+O O    O O
+O O OO O O
+O O OO O O
+O O    O O
+O OOOOOO O
+O        O
+OOOOOOOOOO
+
+Successfully wrote to the results file.
+
+Enter 1 to train using a training data file, enter 2 to use a trained weight settings data file, or enter 3 to quit:
+3
+Have a good day!
+
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                              ]2;patricksorys@Patricks-MBP: ~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository]1;..P2/repository[0m[27m[24m[J]0;patricksorys@Patricks-MBP:~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository | 238x61 | ttys006[1m[36m┌─[1m[30m([1m[32m~/Life/Education/School/USD/Classes/Fall2021/COMP380:Neural_Networks/programming_projects/P2/repository[1m[30m)[1m[36m────────────────────────────────────────────────────────────────────────────────────────────────[1m[30m([1m[36mpatricksorys[1m[30m@[1m[32mPatricks-MBP:s006[1m[30m)[1m[36m─┐
+[1m[36m└[1m[34m─([1m[33m19:06:44[34m[00m on [32mmain[00m[36m ✭[1m[34m)[1m[36m──>(B[m [K[195C [1m[36m─[1m[34m─([1m[33mWed,Nov10[1m[34m)─[1m[36m┘(B[m[211D[?1h=[?2004heexit[?1l>[?2004l
+]2;exit]1;exit
+Script done on Wed Nov 10 19:06:53 2021
