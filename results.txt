@@ -1,16 +1,16 @@
 
 The image from the testing file:
 
-O O   O O 
-       O O
-OO  O OOO 
- O O O   O
-O   O O OO
- O  OO   O
- OOOOOOOO 
- O O   O O
-OOO O   O 
-     OOO O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
+O O O O O 
+ O O O O O
 
 The image returned from the Hopfield Net:
 
@@ -28,16 +28,16 @@ O O O O O
 
 The image from the testing file:
 
- OO OO  OO
-O    O  OO
-  OO O  O 
- OOO    O 
- O  OO  O 
-OO   O O O
-  OOO  O  
-  O   OO O
-OOO OO   O
-OOO  O  OO
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
+  OO  OO  
+  OO  OO  
+OO  OO  OO
+OO  OO  OO
 
 The image returned from the Hopfield Net:
 
@@ -55,16 +55,16 @@ OO  OO  OO
 
 The image from the testing file:
 
-O OOO  O O
- OO O   O 
-OO OO   OO
-O OOO O  O
- OO O  O  
-   O OO OO
- O    OOOO
-O O  O O O
-O  O O OOO
- O   O O O
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+OOOOO     
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
+     OOOOO
 
 The image returned from the Hopfield Net:
 
@@ -82,16 +82,16 @@ OOOOO
 
 The image from the testing file:
 
-      OO O
-OO     O  
-  O OO O  
-O  OO O   
-  O O  O  
-O O  OO OO
-   O     O
- O OO  OO 
-  O  OOOOO
-O     O   
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
+ O  O  O  
+  O  O  O 
+O  O  O  O
 
 The image returned from the Hopfield Net:
 
@@ -109,16 +109,16 @@ O  O  O  O
 
 The image from the testing file:
 
- OO OOOO O
-O  OO  O O
-  OOOOOO O
-O O O  OO 
-  O OO O O
-O O OO O  
- OO O  O O
+OOOOOOOOOO
+O        O
 O OOOOOO O
-  O  O O  
-  OO   OOO
+O O    O O
+O O OO O O
+O O OO O O
+O O    O O
+O OOOOOO O
+O        O
+OOOOOOOOOO
 
 The image returned from the Hopfield Net:
 
@@ -132,4 +132,85 @@ O O    O O
 O OOOOOO O
 O        O
 OOOOOOOOOO
+
+
+The image from the testing file:
+
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+
+The image returned from the Hopfield Net:
+
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+OOOOOOOOOO
+          
+
+
+The image from the testing file:
+
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+
+The image returned from the Hopfield Net:
+
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+O OO OO OO
+
+
+The image from the testing file:
+
+OO        
+  OO      
+    OO    
+      OO  
+        OO
+OO        
+  OO      
+    OO    
+      OO  
+        OO
+
+The image returned from the Hopfield Net:
+
+OO        
+  OO      
+    OO    
+      OO  
+        OO
+OO        
+  OO      
+    OO    
+      OO  
+        OO
 
